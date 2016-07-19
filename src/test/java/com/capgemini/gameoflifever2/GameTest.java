@@ -13,7 +13,7 @@ public class GameTest {
 		Game game = new Game(numbeOfColumns, numberOfRows);
 		int size = game.getBoard().size();
 		// then
-		Assert.assertEquals(25, size);
+		Assert.assertEquals((numbeOfColumns * numberOfRows), size);
 	}
 
 	@Test
@@ -21,6 +21,7 @@ public class GameTest {
 		// given
 		int numberOfColumns = 3;
 		int numberOfRows = 3;
+		int expectedValueOfLivingNeighbors = 2;
 		Coordinate coordinates = new Coordinate(1, 1);
 		// when
 		Game game = new Game(numberOfColumns, numberOfRows);
@@ -28,7 +29,7 @@ public class GameTest {
 		game.getBoard().get(new Coordinate(2, 1)).setAlive(true);
 		int numberOfAlife = game.neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
 		// then
-		Assert.assertEquals(2, numberOfAlife);
+		Assert.assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
 	}
 
 	@Test
@@ -36,6 +37,7 @@ public class GameTest {
 		// given
 		int numberOfColumns = 3;
 		int numberOfRows = 3;
+		int expectedValueOfLivingNeighbors = 2;
 		Coordinate coordinates = new Coordinate(1, 0);
 		// when
 		Game game = new Game(numberOfColumns, numberOfRows);
@@ -43,7 +45,7 @@ public class GameTest {
 		game.getBoard().get(new Coordinate(2, 0)).setAlive(true);
 		int numberOfAlife = game.neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
 		// then
-		Assert.assertEquals(2, numberOfAlife);
+		Assert.assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
 	}
 
 	@Test
@@ -51,6 +53,7 @@ public class GameTest {
 		// given
 		int numberOfColumns = 3;
 		int numberOfRows = 3;
+		int expectedValueOfLivingNeighbors = 3;
 		Coordinate coordinates = new Coordinate(2, 2);
 		// when
 		Game game = new Game(numberOfColumns, numberOfRows);
@@ -59,7 +62,7 @@ public class GameTest {
 		game.getBoard().get(new Coordinate(2, 1)).setAlive(true);
 		int numberOfAlife = game.neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
 		// then
-		Assert.assertEquals(3, numberOfAlife);
+		Assert.assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
 	}
 
 	@Test

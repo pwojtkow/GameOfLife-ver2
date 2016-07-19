@@ -5,15 +5,18 @@ import java.util.Map;
 
 public class Game {
 
-	HashMap<Coordinate, Cell> board;
+	private static final int NUMBER_OF_NEIGHBOR_NEEDED_TO_DIE_FROM_CROWD = 3;
+	private static final int NUMBER_OF_NEIGHBOR_NEEDED_TO_DIE_FROM_LONELINESS = 2;
+	private static final int NUMBER_OF_NEIGHBORS_NEEDED_TO_REBORN = 3;
+	private HashMap<Coordinate, Cell> board;
 	NeighborCounter neighborCounter = new NeighborCounter();
 	public static int numberOfColumns;
 	public static int numberOfRows;
 
 	public Game(int numbersOfColumns, int numberOfRows) {
 		board = new HashMap<Coordinate, Cell>();
-		this.numberOfRows=numberOfRows;
-		this.numberOfColumns=numbersOfColumns;
+		this.numberOfRows = numberOfRows;
+		this.numberOfColumns = numbersOfColumns;
 		for (int i = 0; i < numbersOfColumns; i++) {
 			for (int j = 0; j < numberOfRows; j++) {
 				Cell cell = new Cell(i, j, false);
@@ -24,10 +27,11 @@ public class Game {
 
 	public boolean isCellAlive(Coordinate coordinates) {
 		boolean cellState = board.get(coordinates).isAlive();
-		if (cellState == true)
+		if (cellState) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	public void changeCellState(Coordinate coordinates) {
@@ -37,20 +41,26 @@ public class Game {
 
 	public void changeGeneration() {
 		for (Coordinate coordinates : board.keySet()) {
-			//TODO change this name, two thinks to do
+			// TODO change this name, two thinks to do
 			checkAndChangeState(coordinates);
 		}
 	}
 
 	public void checkAndChangeState(Coordinate coordinates) {
-		if ((isCellAlive(coordinates)==false) && (neighborCounter.countAliveNeighbor(board, coordinates) == 3))
+		if ((isCellAlive(coordinates) == false)
+				&& (neighborCounter.countAliveNeighbor(board,
+						coordinates) == NUMBER_OF_NEIGHBORS_NEEDED_TO_REBORN)) {
 			changeCellState(coordinates);
-		else if ((isCellAlive(coordinates)) && (neighborCounter.countAliveNeighbor(board, coordinates) < 2))
+		} else if ((isCellAlive(coordinates))
+				&& (neighborCounter.countAliveNeighbor(board,
+						coordinates) < NUMBER_OF_NEIGHBOR_NEEDED_TO_DIE_FROM_LONELINESS)) {
 			changeCellState(coordinates);
-		else if ((isCellAlive(coordinates)) && (neighborCounter.countAliveNeighbor(board, coordinates) > 3))
+		} else if ((isCellAlive(coordinates))
+				&& (neighborCounter.countAliveNeighbor(board,
+						coordinates) > NUMBER_OF_NEIGHBOR_NEEDED_TO_DIE_FROM_CROWD)) {
 			changeCellState(coordinates);
+		}
 	}
-
 
 	public Map<Coordinate, Cell> getBoard() {
 		return board;

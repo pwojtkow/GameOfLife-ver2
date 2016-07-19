@@ -31,5 +31,4 @@ public class Cell {
 		return "Cell [coordinateX=" + coordinates.getX() + " coordinateY=" + coordinates.getY() + ", isAlive=" + isAlive
 				+ "]";
 	}
-
 }
