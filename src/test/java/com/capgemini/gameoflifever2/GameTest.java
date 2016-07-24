@@ -1,9 +1,22 @@
 package com.capgemini.gameoflifever2;
 
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
 
 public class GameTest {
 
+	NeighborCounter neighborCounter;
+	
+	@Before
+	public void createObjects() {
+		neighborCounter = new NeighborCounter();
+	}
+	
 	@Test
 	public void shouldCreatePlayingBoard() {
 		// given
@@ -13,7 +26,7 @@ public class GameTest {
 		Game game = new Game(numbeOfColumns, numberOfRows);
 		int size = game.getBoard().size();
 		// then
-		Assert.assertEquals((numbeOfColumns * numberOfRows), size);
+		assertEquals((numbeOfColumns * numberOfRows), size);
 	}
 
 	@Test
@@ -27,9 +40,9 @@ public class GameTest {
 		Game game = new Game(numberOfColumns, numberOfRows);
 		game.getBoard().get(new Coordinate(0, 1)).setAlive(true);
 		game.getBoard().get(new Coordinate(2, 1)).setAlive(true);
-		int numberOfAlife = game.neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
+		int numberOfAlife = neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
 		// then
-		Assert.assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
+		assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
 	}
 
 	@Test
@@ -43,9 +56,9 @@ public class GameTest {
 		Game game = new Game(numberOfColumns, numberOfRows);
 		game.getBoard().get(new Coordinate(1, 1)).setAlive(true);
 		game.getBoard().get(new Coordinate(2, 0)).setAlive(true);
-		int numberOfAlife = game.neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
+		int numberOfAlife = neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
 		// then
-		Assert.assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
+		assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
 	}
 
 	@Test
@@ -60,9 +73,9 @@ public class GameTest {
 		game.getBoard().get(new Coordinate(1, 1)).setAlive(true);
 		game.getBoard().get(new Coordinate(1, 2)).setAlive(true);
 		game.getBoard().get(new Coordinate(2, 1)).setAlive(true);
-		int numberOfAlife = game.neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
+		int numberOfAlife = neighborCounter.countAliveNeighbor(game.getBoard(), coordinates);
 		// then
-		Assert.assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
+		assertEquals(expectedValueOfLivingNeighbors, numberOfAlife);
 	}
 
 	@Test
@@ -75,10 +88,10 @@ public class GameTest {
 		Game game = new Game(numberOfColumns, numberOfRows);
 		game.getBoard().get(coordinates).setAlive(true);
 		game.getBoard().get(new Coordinate(0, 1)).setAlive(true);
-		game.checkAndChangeState(coordinates);
+		game.changeGeneration();
 		boolean testingCellState = game.getBoard().get(coordinates).isAlive();
 		// then
-		Assert.assertFalse(testingCellState);
+		assertFalse(testingCellState);
 	}
 
 	@Test
@@ -92,10 +105,10 @@ public class GameTest {
 		game.getBoard().get(coordinates).setAlive(true);
 		game.getBoard().get(new Coordinate(2, 1)).setAlive(true);
 		game.getBoard().get(new Coordinate(1, 2)).setAlive(true);
-		game.checkAndChangeState(coordinates);
+		game.changeGeneration();
 		boolean testingCellState = game.getBoard().get(coordinates).isAlive();
 		// then
-		Assert.assertTrue(testingCellState);
+		assertTrue(testingCellState);
 	}
 
 	@Test
@@ -103,18 +116,18 @@ public class GameTest {
 		// given
 		int numberOfColumns = 3;
 		int numberOfRows = 3;
-		Coordinate coordinates = new Coordinate(1, 2);
+		Coordinate testingCellCoordinates = new Coordinate(1, 2);
 		// when
 		Game game = new Game(numberOfColumns, numberOfRows);
-		game.getBoard().get(coordinates).setAlive(true);
+		game.getBoard().get(testingCellCoordinates).setAlive(true);
 		game.getBoard().get(new Coordinate(2, 2)).setAlive(true);
 		game.getBoard().get(new Coordinate(2, 1)).setAlive(true);
 		game.getBoard().get(new Coordinate(0, 2)).setAlive(true);
 		game.getBoard().get(new Coordinate(1, 1)).setAlive(true);
-		game.checkAndChangeState(coordinates);
-		boolean testingCellState = game.getBoard().get(coordinates).isAlive();
+		game.changeGeneration();
+		boolean testingCellState = game.getBoard().get(testingCellCoordinates).isAlive();
 		// then
-		Assert.assertFalse(testingCellState);
+		assertTrue(testingCellState);
 	}
 
 	@Test
@@ -122,15 +135,15 @@ public class GameTest {
 		// given
 		int numberOfColumns = 3;
 		int numberOfRows = 3;
-		Coordinate coordinates = new Coordinate(0, 2);
+		Coordinate testingCellCoordinates = new Coordinate(0, 2);
 		// when
 		Game game = new Game(numberOfColumns, numberOfRows);
 		game.getBoard().get(new Coordinate(0, 1)).setAlive(true);
 		game.getBoard().get(new Coordinate(0, 2)).setAlive(true);
 		game.getBoard().get(new Coordinate(1, 2)).setAlive(true);
-		game.checkAndChangeState(coordinates);
-		boolean testingCellState = game.getBoard().get(coordinates).isAlive();
+		game.changeGeneration();
+		boolean testingCellState = game.getBoard().get(testingCellCoordinates).isAlive();
 		// then
-		Assert.assertTrue(testingCellState);
+		assertTrue(testingCellState);
 	}
 }

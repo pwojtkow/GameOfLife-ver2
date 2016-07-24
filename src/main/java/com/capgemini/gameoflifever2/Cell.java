@@ -14,10 +14,6 @@ public class Cell {
 		return coordinates;
 	}
 
-	public void setCoordinates(Coordinate coordinates) {
-		this.coordinates = coordinates;
-	}
-
 	public boolean isAlive() {
 		return isAlive;
 	}
@@ -26,9 +22,4 @@ public class Cell {
 		this.isAlive = isAlive;
 	}
 
-	@Override
-	public String toString() {
-		return "Cell [coordinateX=" + coordinates.getX() + " coordinateY=" + coordinates.getY() + ", isAlive=" + isAlive
-				+ "]";
-	}
 }
